@@ -1,6 +1,6 @@
 import * as support from "../lib/support"
 import {describe, it} from "vitest";
-import {ResizeOpts} from "../lib/types";
+import type {ResizeOpts} from "../lib/resize";
 
 const re = (len: number) => RegExp(`^[A-Za-z0-9]{${len}}$`)
 
