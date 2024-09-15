@@ -1,6 +1,5 @@
 // noinspection SpellCheckingInspection
 
-import {ResizeMessage, ResizeOpts, ResizeResponse} from "./types";
 import {calcDimension, inferOpts, randString} from "./support.ts";
 
 const inferExt = (mime: string | undefined) => {

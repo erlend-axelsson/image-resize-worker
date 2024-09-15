@@ -1,7 +1,8 @@
 import {describe, it} from "vitest";
 import * as resize from "../lib/resize"
+// @ts-ignore
 import testImage from "./test_assets/test_checkerboard.png?url"
-const blob = await fetch((new URL(testImage, import.meta.url)).toString()).then(r=>r.blob())
+const imageData = await fetch((new URL(testImage, import.meta.url))).then(r=>r.blob())
 
 
 /**
@@ -9,7 +10,7 @@ const blob = await fetch((new URL(testImage, import.meta.url)).toString()).then(
  * or make copies of the arraybuffer
  * */
 const copyImageBuffer = async() => {
-  const buf = await blob.arrayBuffer()
+  const buf = await imageData.arrayBuffer()
   const dst = new ArrayBuffer(buf.byteLength);
   new Uint8Array(dst).set(new Uint8Array(buf));
   return dst

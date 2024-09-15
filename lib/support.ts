@@ -1,7 +1,4 @@
-import {ResizeOpts} from "./types";
-
 const CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-
 
 export const calcDimension = (
   maxAllowed: { width: number, height: number },

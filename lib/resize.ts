@@ -1,7 +1,17 @@
-import {ResizeMessage, ResizeOpts, ResizeResponse} from "./types";
-const worker = new Worker(new URL('./worker.ts', import.meta.url), {
+export type ResizeOpts = {
+  name?: string
+  imageType?: string
+  maxWidth?: number
+  maxHeight?: number
+  resizeQuality?: "high" | "low" | "medium" | "pixelated"
+  exportQuality?: number
+}
+
+const worker =
+  new Worker(new URL("./worker.ts", import.meta.url), {
   type: 'module'
 })
+
 
 const callbacks = new Map<string, (blob: File) => void>()
 
@@ -32,6 +42,5 @@ const requestResize = async (file: File, cb: ((blob: File) => void), opts?: Resi
   const message : ResizeMessage = opts?
     { image: file, name: file.name, callbackId: callbackId, opts: opts } :
     { image: file, name: file.name, callbackId: callbackId }
-
   worker.postMessage(message, [buffer])
 }

@@ -1,14 +1,19 @@
 {
   "name": "image-resize-worker",
   "description": "Worker which uses OffscreenCanvas to resize image Files",
-  "version": "0.0.1",
+  "homepage": "https://github.com/erlend-axelsson/image-resize-worker.git",
+  "version": "0.0.2",
   "license": "MIT",
   "type": "module",
-  "files": ["dist"],
+  "files": ["dist/image-resize-worker.js", "dist/resize.d.ts", "dist/assets"],
   "module": "./dist/image-resize-worker.js",
+  "main": "./dist/image-resize-worker.js",
+  "types": "./dist/resize.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/image-resize-worker.js"
+      "default": "./dist/image-resize-worker.js",
+      "import": "./dist/image-resize-worker.js",
+      "types": "./dist/resize.d.ts"
     }
   },
   "scripts": {
@@ -21,6 +26,7 @@
     "vite": "^5.4.1",
     "vitest": "^2.1.1",
     "@vitest/browser": "^2.1.1",
-    "webdriverio": "^9.0.9"
+    "webdriverio": "^9.0.9",
+    "vite-plugin-dts": "^4.2.1"
   }
 }
