@@ -1,3 +1,6 @@
+// @ts-ignore
+import ResizeWorker from "./worker.js?worker&inline"
+
 export type ResizeOpts = {
   name?: string
   imageType?: string
@@ -7,12 +10,7 @@ export type ResizeOpts = {
   exportQuality?: number
 }
 
-const worker =
-  new Worker(new URL("./worker.ts", import.meta.url), {
-  type: 'module'
-})
-
-
+const worker: Worker = ResizeWorker()
 const callbacks = new Map<string, (blob: File) => void>()
 
 worker.onmessage = async (e: MessageEvent<ResizeResponse>) => {

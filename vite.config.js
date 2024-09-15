@@ -14,9 +14,6 @@ export default defineConfig({
             fileName: "image-resize-worker",
         }
     },
-    optimizeDeps: {
-        exclude: ["./lib/worker.ts"]
-    },
     plugins: [dts({ tsconfigPath: './tsconfig.json' })]
 });
 

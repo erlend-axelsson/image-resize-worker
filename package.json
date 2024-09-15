@@ -3,7 +3,7 @@
   "description": "Worker which uses OffscreenCanvas to resize image Files",
   "homepage": "https://github.com/erlend-axelsson/image-resize-worker.git",
   "repository": "https://github.com/erlend-axelsson/image-resize-worker.git",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "type": "module",
   "files": ["dist/image-resize-worker.js", "dist/resize.d.ts", "dist/assets"],
@@ -18,6 +18,7 @@
     }
   },
   "scripts": {
+    "setup": "npm install",
     "dev": "vite",
     "test": "vitest",
     "build": "tsc && vite build"
