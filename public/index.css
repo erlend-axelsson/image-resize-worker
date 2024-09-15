@@ -1,0 +1,57 @@
+html body {
+    margin: 0;
+}
+.root-container {
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.container-element {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    margin-top: 1rem;
+}
+.container-element:last-child {
+    margin-bottom: 1rem;
+}
+.controller-form {
+    width: 100%;
+    max-width: 256px;
+}
+.input-element {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.input-element > * {
+    width: 100%;
+}
+
+.file-input-label {
+    background: lightgray;
+    border-radius: 15px;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid darkslategrey;
+    cursor: pointer;
+}
+.file-input-label:hover {
+    transition: all ease-in 0.1s;
+    background: #bfbfbf;
+    border: 2px solid #1e1f22;
+    box-shadow: 0 0 10px 1px rgba(255, 248, 220, 0.15);
+}
+
+.input-slider {
+    cursor: grab;
+}
+.input-slider:active {
+    cursor: grabbing;
+}
+
+.file-input-form-element {
+    visibility: hidden;
+}
