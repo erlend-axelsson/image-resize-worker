@@ -1,5 +1,6 @@
 // @ts-ignore
 import ResizeWorker from "./worker.js?worker&inline"
+import {randString} from "./support.ts";
 
 export type ResizeOpts = {
   name?: string
@@ -34,7 +35,7 @@ export const resizeImageCallback = (f: File, cb: (f: File) => any, opts?: Resize
 
 const requestResize = async (file: File, cb: ((blob: File) => void), opts?: ResizeOpts) => {
   const buffer = await file.arrayBuffer()
-  const callbackId: string = crypto.randomUUID()
+  const callbackId = randString()
   callbacks.set(callbackId, cb)
 
   const message : ResizeMessage = opts?
