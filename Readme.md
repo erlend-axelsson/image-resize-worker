@@ -4,11 +4,6 @@ Uses OffscreenCanvas in a worker to resize images, can be used to convert betwee
 
 ### usage
 #### install
-for now
-````shell
-git clone
-````
-once uploaded to npm you should be able to run
 `````shell
 npm install image-resize-worker
 ``````
