@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/index.css" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="root-container" class="root-container">
+      <div class="container-element">
+        <form id="resize-form" class="controller-form">
+          <div class="input-element">
+            <label class="file-input-label" for="resize-input" id="resize-input-label" tabindex="0">image [*REQUIRED]</label>
+            <span id="resize-input-name">[none selected]</span>
+            <input hidden="hidden" id="resize-input" name="resize-input" class="file-input-form-element"  type="file" accept="image/png image/jpeg" />
+          </div>
+          <div class="input-element">
+            <label for="max-width">max width [default={input.width}]</label>
+            <input id="max-width" name="max-width" type="number" />
+          </div>
+          <div class="input-element">
+            <label for="max-height">max height [default={input.height}]</label>
+            <input id="max-height" name="max-height" type="number" />
+          </div>
+          <div class="input-element">
+            <label for="image-type">image type [default={input.type}]</label>
+            <input id="image-type" name="image-type" type="text"/>
+          </div>
+          <div class="input-element">
+            <label for="resize-quality">Resize quality [default="high"]</label>
+            <select id="resize-quality" name="resize-quality" >
+              <option value="" selected></option>
+              <option value="high">high</option>
+              <option value="medium">medium</option>
+              <option value="low">low</option>
+              <option value="pixelated">pixelated</option>
+            </select>
+          </div>
+          <div class="input-element">
+            <label id="export-quality-label" for="export-quality">Export quality (0.9) [default="0.9"]</label>
+            <input id="export-quality" name="export-quality" class="input-slider" type="range" value="0.90" min="0" max="1" step="0.01"/>
+          </div>
+          <div id="resize-button" class="input-element"><button>&gt; RESIZE &lt;</button></div>
+        </form>
+      </div>
+      <div class="container-element">
+        <img id="image-slot" alt="image slot" src="/placeholder.png">
+      </div>
+    </div>
+    <script type="module">
+      import {resizeImage} from './lib/main.ts';
+
+      /**
+       * Element handles
+       */
+      // noinspection JSUnusedGlobalSymbols
+      /** @type {HTMLFormElement} */
+      const form = document.getElementById("resize-form")
+      /** @type {HTMLLabelElement} */
+      const fileInputLabel = document.getElementById("resize-input-label")
+      /** @type {HTMLSpanElement} */
+      const fileInputName = document.getElementById("resize-input-name")
+      /** @type {HTMLInputElement} */
+      const fileInput = document.getElementById("resize-input")
+      /** @type {HTMLInputElement} */
+      const maxWidth = document.getElementById("max-width")
+      /** @type {HTMLInputElement} */
+      const maxHeight = document.getElementById("max-height")
+      /** @type {HTMLInputElement} */
+      const imageType = document.getElementById("image-type")
+      /** @type {HTMLSelectElement} */
+      const resizeQuality = document.getElementById("resize-quality")
+      /** @type {HTMLLabelElement} */
+      const exportQualityLabel = document.getElementById("export-quality-label")
+      /** @type {HTMLInputElement} */
+      const exportQuality = document.getElementById("export-quality")
+      /** @type {HTMLButtonElement} */
+      const resizeButton = document.getElementById("resize-button")
+      /** @type {HTMLImageElement}*/
+      const imageSlot = document.getElementById("image-slot")
+
+      /**
+       * Input Getters
+       */
+      const getFileInput = () => fileInput?.files && fileInput?.files.length > 0 ? fileInput?.files[0] : undefined
+      const getMaxWidth = () => Number.isNaN(maxWidth.valueAsNumber) ? undefined : maxWidth.valueAsNumber
+      const getMaxHeight = () => Number.isNaN(maxHeight.valueAsNumber) ? undefined : maxHeight.valueAsNumber
+      const getImageType = () => imageType.value.length !== 0 ? imageType.value : undefined
+      const getResizeQuality = () => resizeQuality.value !== "" ? resizeQuality.value : undefined
+      const getExportQuality = () => exportQuality.value
+      const getOptions = () => {
+        const opts = [
+          ["maxWidth", getMaxWidth()],
+          ["maxHeight", getMaxHeight()],
+          ["imageType", getImageType()],
+          ["resizeQuality", getResizeQuality()],
+          ["exportQuality", getExportQuality()]
+        ]
+                .filter(([_, value]) => value !== undefined)
+                .reduce((acc, [key, value]) => {
+                  acc[key] = value
+                  return acc
+                }, {})
+        return { image: getFileInput(), opts: opts }
+      }
+
+      /**
+       * Utility Functions
+       */
+      const getFileName = () => {
+        const fileName = getFileInput()?.name
+        return fileName !== undefined ? fileName : ""
+      }
+      const updateExportQualityLabel = () =>
+              exportQualityLabel.textContent = `Export quality (${getExportQuality()}) [default="0.9"]`
+
+      /**
+       * Event Listeners
+       */
+      const inputFileHandler = (_) => {
+        const fileName = getFileName()
+        if(fileName === "") {
+          fileInputName.innerText = "[none selected]"
+        } else {
+          fileInputName.innerText = fileName
+        }
+      }
+      const inputFileLabelHandler = (e) => {
+        if((e["key"] === "Enter" || e["key"] === " ")) { fileInput.click() }
+      }
+      const exportQualityHandler = (_) => updateExportQualityLabel()
+      const resizeButtonHandler = (e) => {
+        e.preventDefault()
+        const {image, opts } = getOptions()
+        if(image === undefined) {
+          return
+        }
+        // noinspection JSCheckFunctionSignatures
+        resizeImage(image, opts).then(imageBlob => {
+          imageSlot.src = window.URL.createObjectURL(imageBlob)
+        })
+      }
+
+
+      /**
+       * Setup
+       */
+      updateExportQualityLabel()
+      fileInput.addEventListener("input", inputFileHandler)
+      fileInputLabel.addEventListener("keypress", inputFileLabelHandler)
+      exportQuality.addEventListener("input", exportQualityHandler)
+      resizeButton.addEventListener("click", resizeButtonHandler)
+
+
+
+    </script>
+  </body>
+</html>

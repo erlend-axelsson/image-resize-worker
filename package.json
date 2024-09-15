@@ -1,0 +1,26 @@
+{
+  "name": "image-resize-worker",
+  "description": "Worker which uses OffscreenCanvas to resize image Files",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist"],
+  "module": "./dist/image-resize-worker.js",
+  "exports": {
+    ".": {
+      "import": "./dist/image-resize-worker.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "test": "vitest",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vitest": "^2.1.1",
+    "@vitest/browser": "^2.1.1",
+    "webdriverio": "^9.0.9"
+  }
+}
